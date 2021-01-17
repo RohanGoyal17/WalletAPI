@@ -34,7 +34,7 @@ public class UsersResource {
 
     @DeleteMapping(value = "/user")
     public void deleteUser(@RequestParam(value = "userId", defaultValue = "") String id) {
-        //usersRepository.delete(id);
+        usersRepository.deleteById(id);
     }
 
 }
