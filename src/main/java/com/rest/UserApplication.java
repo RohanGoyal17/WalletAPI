@@ -1,10 +1,10 @@
-package com.rest.user;
+package com.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableJpaRepositories(basePackages = "com.rest.user.repository")    // connecting to code
+//@EnableJpaRepositories(basePackages = "com.rest.user.repository")    // connecting to code
 @SpringBootApplication
 public class UserApplication {
 
