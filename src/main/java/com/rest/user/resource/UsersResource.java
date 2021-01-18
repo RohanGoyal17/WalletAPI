@@ -25,28 +25,34 @@ public class UsersResource {
     }
 
     @PostMapping(value = "/user")           // post mapping
-    public void persist(@RequestBody final Users users) {
+    public String persist(@RequestBody final Users users) {
         //if(usersRepository.findById(users.getId()) == null)
         List<Users> email_id = usersRepository.findByEmail(users.getEmail());  //check for same email
         List<Users> phone_number = usersRepository.findByPhone(users.getPhone()); // check for same phone number
         if(email_id.isEmpty() && phone_number.isEmpty()) {
             usersRepository.save(users);
+            return "User Added";
         }
+        else return "Email/Phone exists";
     }
 
     @PutMapping(value = "/user")            // put mapping
-    public void update(@RequestBody final Users users ,@RequestParam(value = "userId", defaultValue = "") String id) {
+    public String update(@RequestBody final Users users ,@RequestParam(value = "userId", defaultValue = "") String id) {
         if(usersRepository.findById(id).get() != null) {    //checks if user exists
             usersRepository.save(users);
             //return usersRepository.findAll();
+            return "User Updated";
         }
+        else return "User doesn't exist";
     }
 
     @DeleteMapping(value = "/user")         // delete mapping
-    public void deleteUser(@RequestParam(value = "userId", defaultValue = "") String id) {
+    public String deleteUser(@RequestParam(value = "userId", defaultValue = "") String id) {
         if(usersRepository.findById(id).get() != null) {    //checks if user exists
             usersRepository.deleteById(id);
+            return "User deleted";
         }
+        else return  "User doesn't exist";
     }
 
 }
