@@ -27,7 +27,7 @@ public class UsersResource {
 
     @PutMapping(value = "/user")            // put mapping
     public void update(@RequestBody final Users users ,@RequestParam(value = "userId", defaultValue = "") String id) {
-        if(usersRepository.findById(id).get() != null) {
+        if(usersRepository.findById(id).get() != null) {    //checks if user exists
             usersRepository.save(users);
             //return usersRepository.findAll();
         }
@@ -35,7 +35,7 @@ public class UsersResource {
 
     @DeleteMapping(value = "/user")         // delete mapping
     public void deleteUser(@RequestParam(value = "userId", defaultValue = "") String id) {
-        if(usersRepository.findById(id).get() != null) {
+        if(usersRepository.findById(id).get() != null) {    //checks if user exists
             usersRepository.deleteById(id);
         }
     }
