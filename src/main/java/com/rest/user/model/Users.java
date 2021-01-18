@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Users {
 
-    @Id
+    @Id                         //defining id field (string in this case)
     @Column(name = "id")
     private String id;
     @Column(name = "name")
