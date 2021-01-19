@@ -20,11 +20,12 @@ public class WalletResource {
 
     @PostMapping(value = "/wallet")           // post mapping
     public String persist(@RequestBody final Wallet wallet) {
-        //List<Users> phone_number = usersRepository.findByPhone(users.getPhone()); // check for same phone number
-        //if(phone_number.isEmpty()) {
+        List<Wallet> phone_number = walletRepository.findByPhone(wallet.getPhone()); // check for same phone number
+        if(phone_number.isEmpty()) {
         walletRepository.save(wallet);
         return "Wallet Created";
-        //}
+        }
+        else return "Wallet already exists";
     }
 
 }

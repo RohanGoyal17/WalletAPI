@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.*;
+import com.rest.user.model.Users;
 
 @Entity
 public class Wallet {
@@ -13,6 +15,8 @@ public class Wallet {
     private Integer phone;
     @Column(name = "balance")
     private Integer balance;
+    @ManyToOne
+    private Users users;
 
     public Wallet() {
     }
