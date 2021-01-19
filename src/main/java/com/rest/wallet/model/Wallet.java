@@ -11,8 +11,8 @@ public class Wallet {
     @Id                         //defining id field (int in this case)
     @Column(name = "phone")
     private Integer phone;
-    //@Column(name = "balance")
-    //private Integer balance;
+    @Column(name = "balance")
+    private Integer balance;
 
     public Wallet() {
     }
@@ -25,11 +25,11 @@ public class Wallet {
         this.phone = phone;
     }
 
-    /*public Integer getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
     public void setBalance(Integer balance) {
         this.balance = balance;
-    }*/
+    }
 }

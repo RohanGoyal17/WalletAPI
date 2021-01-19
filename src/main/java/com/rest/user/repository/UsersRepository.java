@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UsersRepository extends JpaRepository<Users, String> {       //defining database (object type, id type)
     public List<Users> findByEmail(String email); //find by email
-    //public List<Users> findById(String id);
+    public List<Users> findByUserid(String userid);
     public List<Users> findByPhone(Integer phone); //find by phone number
 }

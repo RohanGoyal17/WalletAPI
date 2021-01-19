@@ -29,16 +29,22 @@ public class UsersResource {
         //if(usersRepository.findById(users.getId()) == null)
         List<Users> email_id = usersRepository.findByEmail(users.getEmail());  //check for same email
         List<Users> phone_number = usersRepository.findByPhone(users.getPhone()); // check for same phone number
-        if(email_id.isEmpty() && phone_number.isEmpty()) {
+        List<Users> user_id = usersRepository.findByUserid(users.getUserid());
+        if(email_id.isEmpty() && phone_number.isEmpty() && user_id.isEmpty()) {
             usersRepository.save(users);
             return "User Added";
         }
-        else return "Email/Phone exists";
+        else return "Id/Email/Phone exists";
     }
 
     @PutMapping(value = "/user")            // put mapping
     public String update(@RequestBody final Users users ,@RequestParam(value = "userId", defaultValue = "") String id) {
-        if(usersRepository.findById(id).get() != null) {    //checks if user exists
+
+        //List<Users> email_id = usersRepository.findByEmail(users.getEmail());  //check for same email
+        //List<Users> phone_number = usersRepository.findByPhone(users.getPhone()); // check for same phone number
+        List<Users> user_id = usersRepository.findByUserid(users.getUserid());
+
+        if(!user_id.isEmpty()) {    //checks if user exists
             usersRepository.save(users);
             //return usersRepository.findAll();
             return "User Updated";
@@ -48,7 +54,8 @@ public class UsersResource {
 
     @DeleteMapping(value = "/user")         // delete mapping
     public String deleteUser(@RequestParam(value = "userId", defaultValue = "") String id) {
-        if(usersRepository.findById(id).get() != null) {    //checks if user exists
+        List<Users> user_id = usersRepository.findByUserid(id);
+        if(!user_id.isEmpty()) {    //checks if user exists
             usersRepository.deleteById(id);
             return "User deleted";
         }
