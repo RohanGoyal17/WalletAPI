@@ -15,8 +15,8 @@ public class Wallet {
     private Integer phone;
     @Column(name = "balance")
     private Integer balance;
-    @ManyToOne
-    private Users users;
+    //@ManyToOne
+    //private Users users;
 
     public Wallet() {
     }
