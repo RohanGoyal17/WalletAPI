@@ -36,4 +36,6 @@ public class Wallet {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
+
+    public void incrementBalance(Integer increment){ this.balance += increment; }
 }
