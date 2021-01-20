@@ -35,8 +35,10 @@ public class TransactionResource {
         if(!sender_phone.isEmpty() && !receiver_phone.isEmpty()) {
             if(sender_phone.get(0).getBalance() >= transaction.getAmount()) {
                 transactionRepository.save(transaction);
-                sender_phone.get(0).incrementBalance(-transaction.getAmount());
+                sender_phone.get(0).incrementBalance(-transaction.getAmount()); // editing summoned objects
                 receiver_phone.get(0).incrementBalance(transaction.getAmount());
+                walletRepository.save(sender_phone.get(0));    //saving back the data
+                walletRepository.save(receiver_phone.get(0));
                 return "transaction successful";
             }
             else return "insufficient funds";
@@ -56,7 +58,7 @@ public class TransactionResource {
     public List<Transaction> getPaginated(@RequestParam(value = "userId", defaultValue = "") String uid) {
         List<Users> user_list = usersRepository.findByUserid(uid);
         if(!user_list.isEmpty()) {
-            int phone_number = user_list.get(0).getPhone();
+            int phone_number = user_list.get(0).getPhone();  //get phones from id
             List<Transaction> receiver_list = transactionRepository.findByReceiverphone(phone_number);
             List<Transaction> sender_list = transactionRepository.findBySenderphone(phone_number);
             sender_list.addAll(receiver_list);
