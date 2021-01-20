@@ -7,8 +7,9 @@ import com.rest.wallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.rest.wallet.model.Wallet;
+import com.rest.user.repository.UsersRepository;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class TransactionResource {
@@ -18,6 +19,9 @@ public class TransactionResource {
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    UsersRepository usersRepository;
 
     @GetMapping(value = "/transaction/all")
     public List<Transaction> displayAll(){
@@ -46,5 +50,21 @@ public class TransactionResource {
         if(comparative_transactions.isEmpty())
             return "failed";
         else return "Successfull";
+    }
+
+    @GetMapping(value = "/transactions")            //part 3
+    public List<Transaction> getPaginated(@RequestParam(value = "userId", defaultValue = "") String uid) {
+        List<Users> user_list = usersRepository.findByUserid(uid);
+        if(!user_list.isEmpty()) {
+            int phone_number = user_list.get(0).getPhone();
+            List<Transaction> receiver_list = transactionRepository.findByReceiverphone(phone_number);
+            List<Transaction> sender_list = transactionRepository.findBySenderphone(phone_number);
+            sender_list.addAll(receiver_list);
+            return sender_list;
+        }
+        else {
+            List <Transaction> Dummy = new ArrayList<>();
+            return Dummy;
+        }
     }
 }
