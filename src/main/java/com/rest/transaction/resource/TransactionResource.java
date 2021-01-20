@@ -55,14 +55,17 @@ public class TransactionResource {
     }
 
     @GetMapping(value = "/transactions")            //part 3
-    public List<Transaction> getPaginated(@RequestParam(value = "userId", defaultValue = "") String uid) {
+    public List<Transaction> getPaginated(@RequestParam(value = "userId", defaultValue = "") String uid,
+                                          @RequestParam(value = "page", defaultValue = "0") Integer pageno,
+                                          @RequestParam(value = "size", defaultValue = "1") Integer pagesize) {
         List<Users> user_list = usersRepository.findByUserid(uid);
         if(!user_list.isEmpty()) {
             int phone_number = user_list.get(0).getPhone();  //get phones from id
             List<Transaction> receiver_list = transactionRepository.findByReceiverphone(phone_number);
             List<Transaction> sender_list = transactionRepository.findBySenderphone(phone_number);
             sender_list.addAll(receiver_list);
-            return sender_list;
+            List<Transaction> return_list = sender_list.subList(pageno*pagesize,(pageno+1)*pagesize);
+            return return_list;
         }
         else {
             List <Transaction> Dummy = new ArrayList<>();
