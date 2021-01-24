@@ -1,26 +1,27 @@
 package com.rest.transaction.resource;
 
 import com.rest.transaction.model.Transaction;
-import com.rest.transaction.repository.TransactionRepository;
 import com.rest.transaction.repository.ElasticRepository;
+import com.rest.transaction.repository.TransactionRepository;
+import com.rest.transaction.service.KafkaTransaction;
 import com.rest.user.model.Users;
+import com.rest.user.repository.UsersRepository;
+import com.rest.wallet.model.Wallet;
 import com.rest.wallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.rest.wallet.model.Wallet;
-import com.rest.user.repository.UsersRepository;
-import com.rest.transaction.service.KafkaTransaction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-public class TransactionResource {
+public class ElasticTransactionResource {
 
     @Autowired
     TransactionRepository transactionRepository;        // defining reference
 
-    //@Autowired
-    //ElasticRepository elasticRepository;
+    @Autowired
+    ElasticRepository elasticRepository;
 
     @Autowired
     WalletRepository walletRepository;

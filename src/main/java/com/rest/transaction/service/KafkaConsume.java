@@ -22,7 +22,7 @@ public class KafkaConsume {
     @KafkaListener(topics = "trans", groupId = "group-id")
     public void consume(Transaction transaction)
     {
-        transactionRepository.save(transaction); //save to normal repo
+        transactionRepository.save(transaction); //save to normal repo //change for elastic
     }
 
 

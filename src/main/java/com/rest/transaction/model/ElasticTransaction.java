@@ -1,23 +1,20 @@
 package com.rest.transaction.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.*;
-import com.rest.user.model.Users;
-//import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+//import javax.persistence.Id;
 
-//@Document(indexName="rohan",shards=2)
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-@Entity
-public class Transaction {
+@Document(indexName="rohan",shards=2)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ElasticTransaction {
 
 
 
@@ -32,11 +29,11 @@ public class Transaction {
     @Column(name = "amount")
     private Integer amount;
 
-    public Transaction() {
-    }
+    //public Transaction() {
+    //}
 
 
-    public Transaction(Integer senderphone, Integer receiverphone, Integer amount) {
+    public ElasticTransaction(Integer senderphone, Integer receiverphone, Integer amount) {
         this.senderphone = senderphone;
         this.receiverphone = receiverphone;
         this.amount = amount;
