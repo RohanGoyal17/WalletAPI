@@ -26,6 +26,7 @@ public class Transaction {
     public Transaction() {
     }
 
+
     public Transaction(Integer senderphone, Integer receiverphone, Integer amount) {
         this.senderphone = senderphone;
         this.receiverphone = receiverphone;

@@ -2,12 +2,14 @@ package com.rest.transaction.resource;
 
 import com.rest.transaction.model.Transaction;
 import com.rest.transaction.repository.TransactionRepository;
+import com.rest.transaction.repository.ElasticRepository;
 import com.rest.user.model.Users;
 import com.rest.wallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.rest.wallet.model.Wallet;
 import com.rest.user.repository.UsersRepository;
+import com.rest.transaction.service.KafkaTransaction;
 
 import java.util.*;
 
@@ -17,8 +19,14 @@ public class TransactionResource {
     @Autowired
     TransactionRepository transactionRepository;        // defining reference
 
+    //@Autowired
+    //ElasticRepository elasticRepository;
+
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    KafkaTransaction kafkaTransaction;
 
     @Autowired
     UsersRepository usersRepository;
@@ -34,7 +42,35 @@ public class TransactionResource {
         List<Wallet> receiver_phone = walletRepository.findByPhone(transaction.getReceiverphone());
         if(!sender_phone.isEmpty() && !receiver_phone.isEmpty()) {
             if(sender_phone.get(0).getBalance() >= transaction.getAmount()) {
+                //System.out.println(transaction.getTransactionid());
                 transactionRepository.save(transaction);
+
+                sender_phone.get(0).incrementBalance(-transaction.getAmount()); // editing summoned objects
+                receiver_phone.get(0).incrementBalance(transaction.getAmount());
+                walletRepository.save(sender_phone.get(0));    //saving back the data
+                walletRepository.save(receiver_phone.get(0));
+                return "transaction successful";
+            }
+            else return "insufficient funds";
+        }
+        else return "invalid phone number";
+    }
+    @PostMapping(value = "/trans")           // post mapping
+    public String elastic(@RequestBody final Transaction transaction) {
+        List<Wallet> sender_phone = walletRepository.findByPhone(transaction.getSenderphone());
+        List<Wallet> receiver_phone = walletRepository.findByPhone(transaction.getReceiverphone());
+        if(!sender_phone.isEmpty() && !receiver_phone.isEmpty()) {
+            if(sender_phone.get(0).getBalance() >= transaction.getAmount()) {
+                ///change for kafka
+                //transactionRepository.save(transaction); // for simple repository
+                //elasticRepository.save(transaction);  //for elastic search
+                try {
+                    kafkaTransaction.send(transaction);
+                }catch (Exception e){
+
+                }
+                //kafkaTransaction.send("debug1"); //debug
+                ///change for kafka
                 sender_phone.get(0).incrementBalance(-transaction.getAmount()); // editing summoned objects
                 receiver_phone.get(0).incrementBalance(transaction.getAmount());
                 walletRepository.save(sender_phone.get(0));    //saving back the data
