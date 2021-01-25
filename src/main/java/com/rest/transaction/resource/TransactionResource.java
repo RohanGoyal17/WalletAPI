@@ -1,5 +1,6 @@
 package com.rest.transaction.resource;
 
+import com.rest.transaction.model.ElasticTransaction;
 import com.rest.transaction.model.Transaction;
 import com.rest.transaction.repository.ElasticRepository;
 import com.rest.transaction.repository.TransactionRepository;
@@ -57,7 +58,7 @@ public class TransactionResource {
         else return "invalid phone number";
     }
     @PostMapping(value = "/trans")           // post mapping
-    public String elastic(@RequestBody final Transaction transaction) {
+    public String elastic(@RequestBody final ElasticTransaction transaction) {
         List<Wallet> sender_phone = walletRepository.findByPhone(transaction.getSenderphone());
         List<Wallet> receiver_phone = walletRepository.findByPhone(transaction.getReceiverphone());
         if(!sender_phone.isEmpty() && !receiver_phone.isEmpty()) {
@@ -108,5 +109,10 @@ public class TransactionResource {
             List <Transaction> Dummy = new ArrayList<>();
             return Dummy;
         }
+    }
+    @PostMapping(value = "/elastic")
+    public String elasticpost(@RequestBody final ElasticTransaction transaction) {
+        elasticRepository.save(transaction);
+        return "added to elastic repo";
     }
 }

@@ -10,10 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 //import javax.persistence.Id;
 
-@Document(indexName="rohan",shards=2)
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Document(indexName="transac")
 public class ElasticTransaction {
 
 
@@ -29,8 +26,8 @@ public class ElasticTransaction {
     @Column(name = "amount")
     private Integer amount;
 
-    //public Transaction() {
-    //}
+    public ElasticTransaction() {
+    }
 
 
     public ElasticTransaction(Integer senderphone, Integer receiverphone, Integer amount) {
