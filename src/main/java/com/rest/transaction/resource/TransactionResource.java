@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -110,9 +111,27 @@ public class TransactionResource {
             return Dummy;
         }
     }
-    @PostMapping(value = "/elastic")
+    /*@PostMapping(value = "/elastic")
     public String elasticpost(@RequestBody final ElasticTransaction transaction) {
         elasticRepository.save(transaction);
         return "added to elastic repo";
+    }*/
+    @GetMapping(value = "/transac")            //elastic search get
+    public List<ElasticTransaction> getElastic(@RequestParam(value = "userId", defaultValue = "") String uid,
+                                               @RequestParam(value = "page", defaultValue = "0") Integer pageno,
+                                               @RequestParam(value = "size", defaultValue = "1") Integer pagesize) {
+        List<Users> user_list = usersRepository.findByUserid(uid);
+        if(!user_list.isEmpty()) {
+            int phone_number = user_list.get(0).getPhone();  //get phones from id
+            List<ElasticTransaction> receiver_list = elasticRepository.findByReceiverphone(phone_number);
+            List<ElasticTransaction> sender_list = elasticRepository.findBySenderphone(phone_number);
+            sender_list.addAll(receiver_list);
+            List<ElasticTransaction> return_list = sender_list.subList(pageno*pagesize,(pageno+1)*pagesize);
+            return return_list;
+        }
+        else {
+            List <ElasticTransaction> Dummy = new ArrayList<>();
+            return Dummy;
+        }
     }
 }

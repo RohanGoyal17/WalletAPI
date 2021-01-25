@@ -18,7 +18,7 @@ public class ElasticTransaction {
     @Id                         //defining id field (int in this case)
     @GeneratedValue
     @Column(name = "transactionid")
-    private Integer transactionid;
+    private String transactionid;
     @Column(name = "senderphone")
     private Integer senderphone;
     @Column(name = "receiverphone")
@@ -36,7 +36,7 @@ public class ElasticTransaction {
         this.amount = amount;
     }
 
-    public void setTransactionid(Integer transactionid) {
+    public void setTransactionid(String transactionid) {
         this.transactionid = transactionid;
     }
 
@@ -52,7 +52,7 @@ public class ElasticTransaction {
         this.amount = amount;
     }
 
-    public Integer getTransactionid() {
+    public String getTransactionid() {
         return transactionid;
     }
 

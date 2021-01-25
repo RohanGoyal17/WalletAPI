@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 //public interface ElasticRepository {
 @Repository
-public interface ElasticRepository extends ElasticsearchRepository<ElasticTransaction, Integer> {       //defining database (object type, id type)
+public interface ElasticRepository extends ElasticsearchRepository<ElasticTransaction, String> {       //defining database (object type, id type)
    // public List<ElasticTransaction> findByTransactionid(Integer transactionid); //find by email
-   // public List<ElasticTransaction> findBySenderphone(Integer senderphone);
-   // public List<ElasticTransaction> findByReceiverphone(Integer receiverphone);
+   public List<ElasticTransaction> findBySenderphone(Integer senderphone);
+   public List<ElasticTransaction> findByReceiverphone(Integer receiverphone);
 }
