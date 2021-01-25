@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class ElasticTransactionResource {
+public class TransactionResource {
 
     @Autowired
     TransactionRepository transactionRepository;        // defining reference
