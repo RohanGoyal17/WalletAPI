@@ -9,6 +9,8 @@ import com.rest.user.model.Users;
 import com.rest.user.repository.UsersRepository;
 import com.rest.wallet.model.Wallet;
 import com.rest.wallet.repository.WalletRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,8 @@ public class TransactionResource {
     @Autowired
     UsersRepository usersRepository;
 
+    Logger logger = LoggerFactory.getLogger(TransactionResource.class);
+
     @GetMapping(value = "/transaction/all")
     public List<Transaction> displayAll(){
         return transactionRepository.findAll();
@@ -52,11 +56,20 @@ public class TransactionResource {
                 receiver_phone.get(0).incrementBalance(transaction.getAmount());
                 walletRepository.save(sender_phone.get(0));    //saving back the data
                 walletRepository.save(receiver_phone.get(0));
+
+                logger.info("transaction successful");
                 return "transaction successful";
             }
-            else return "insufficient funds";
+
+            else{
+                logger.info("insufficient funds");
+                return "insufficient funds";
+            }
         }
-        else return "invalid phone number";
+        else{
+            logger.info("invalid number");
+            return "invalid phone number";
+        }
     }
     @PostMapping(value = "/trans")           // post mapping
     public String elastic(@RequestBody final ElasticTransaction transaction) {
@@ -117,7 +130,7 @@ public class TransactionResource {
         return "added to elastic repo";
     }*/
     @GetMapping(value = "/transac")            //elastic search get
-    public List<ElasticTransaction> getElastic(@RequestParam(value = "userId", defaultValue = "") String uid,
+    public List<ElasticTransaction> getElasticTransactions(@RequestParam(value = "userId", defaultValue = "") String uid,
                                                @RequestParam(value = "page", defaultValue = "0") Integer pageno,
                                                @RequestParam(value = "size", defaultValue = "1") Integer pagesize) {
         List<Users> user_list = usersRepository.findByUserid(uid);
