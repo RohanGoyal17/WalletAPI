@@ -116,6 +116,7 @@ public class TransactionResource {
             List<Transaction> receiver_list = transactionRepository.findByReceiverphone(phone_number);
             List<Transaction> sender_list = transactionRepository.findBySenderphone(phone_number);
             sender_list.addAll(receiver_list);
+            //List<Transaction> sender_list = transactionRepository.findBySenderphoneOrReceiverphone(phone_number,phone_number);
             List<Transaction> return_list = sender_list.subList(pageno*pagesize,(pageno+1)*pagesize);
             return return_list;
         }
